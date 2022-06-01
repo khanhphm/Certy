@@ -4,6 +4,8 @@ import Home from "../views/Home.vue";
 import About from "../views/About.vue";
 import Contact from "../views/Contact.vue";
 import CheckCerty from "../views/CheckCerty.vue";
+import ConnectMetamask from "../views/ConnectMetamask.vue";
+import Admin from "../views/Admin.vue";
 
 Vue.use(VueRouter);
 
@@ -27,6 +29,16 @@ const routes = [
     path: "/contact",
     name: "Contact",
     component: Contact,
+  },
+  {
+    path: "/connect-metamask",
+    name: "Connect Metamask",
+    component: ConnectMetamask,
+  },
+  {
+    path: "/admin",
+    name: "Admin",
+    component: Admin,
   },
 ];
 

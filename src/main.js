@@ -6,20 +6,7 @@ import vuetify from './plugins/vuetify'
 
 Vue.config.productionTip = false
 
-if (typeof window.ethereum == 'undefined') {
-  //if (window.confirm('Không nhận được Metamask, bạn có muốn cài đặt??')) {
-    //window.open('https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn', '_blank');
-    //write this above first
-    let a = document.createElement('a');
-    a.target = '_blank';
-    a.href = 'https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn';
 
-    //then use this code for alert
-    if (window.confirm('Bạn cần cài đặt Metamask để có thể truy cập. Nhấn OK để tới trang cài đặt')) {
-      a.click();
-    }
-  //}
-}
 
 new Vue({
   router,
