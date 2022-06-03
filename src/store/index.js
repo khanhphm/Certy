@@ -19,7 +19,8 @@ export default new Vuex.Store({
     },
     setBalance(state, payload) {
       state.balance = payload;
-    }
+    },
+
   },
   actions: {
     async getAccount({commit}){
@@ -34,7 +35,7 @@ export default new Vuex.Store({
         commit("setBalance", data.length);
       })
       
-    }
+    },
   },
   modules: {},
 });

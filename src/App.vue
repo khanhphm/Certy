@@ -15,16 +15,10 @@
       <v-divider class="mx-6" vertical color="gray"></v-divider>
       <v-tabs dark>
         <v-tab to="/"> Home </v-tab>
-        <v-tab to="/check-certy"> Check Certy </v-tab>
+        <v-tab to="/my-certy"> My Certy </v-tab>
         <v-tab to="/about"> About </v-tab>
         <v-tab to="/contact"> Contact </v-tab>
       </v-tabs>
-
-      <div>
-        <v-chip  color="dark"
-          ><span>{{ showAcc(account) }}</span></v-chip
-        >
-      </div>
     </v-app-bar>
 
     <v-main>
@@ -34,41 +28,39 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+const Moralis = require("moralis");
+const serverUrl = "https://0pi3aryzbveg.usemoralis.com:2053/server";
+const appId = "ERpaelo8j5rMwc4uFZKyhItKjQ08oIKJIJzRZbp4";
+Moralis.start({ serverUrl, appId });
 export default {
   components: {},
   data() {
     return {};
   },
-  computed: {
-    ...mapState(["account"]),
-  },
-  methods: {
-    ...mapActions(["getAccount","getWallet"]),
-
-    showAcc(account) {
-      if (account.length > 0) {
-        return (
-          account.slice(0, 5) +
-          "..." +
-          account.slice(account.length - 4, account.length)
-        );
-      } else return "Not Connected";
-    },
-  },
+  computed: {},
+  methods: {},
   created() {
-    window.ethereum.request({
-      method: "eth_requestAccounts",
-    }).then(()=>{
-      
-    });
+    window.ethereum
+      .request({
+        method: "eth_requestAccounts",
+      })
+      .then(() => {});
   },
   async mounted() {
-    await this.getAccount();
-    await this.getWallet();
-    window.ethereum.on("accountsChanged", () => {
-      this.getWallet();
-    });
+    let user = Moralis.User.current();
+    if (!user) {
+      user = await Moralis.authenticate({
+        signingMessage: "Log in using Moralis",
+      })
+        .then(function (user) {
+          console.log("logged in user:", user);
+          console.log(user.get("ethAddress"));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+    
   },
 };
 </script>

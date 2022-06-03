@@ -3,8 +3,7 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import About from "../views/About.vue";
 import Contact from "../views/Contact.vue";
-import CheckCerty from "../views/CheckCerty.vue";
-import ConnectMetamask from "../views/ConnectMetamask.vue";
+import MyCerty from "../views/MyCerty.vue";
 import Admin from "../views/Admin.vue";
 
 Vue.use(VueRouter);
@@ -16,9 +15,9 @@ const routes = [
     component: Home,
   },
   {
-    path: "/check-certy",
-    name: "Check Certy",
-    component: CheckCerty,
+    path: "/my-certy",
+    name: "My Certy",
+    component: MyCerty,
   },
   {
     path: "/about",
@@ -31,14 +30,14 @@ const routes = [
     component: Contact,
   },
   {
-    path: "/connect-metamask",
-    name: "Connect Metamask",
-    component: ConnectMetamask,
-  },
-  {
     path: "/admin",
     name: "Admin",
     component: Admin,
+  },
+  {
+    path: "/certy/:tokenId",
+    name: "Certy",
+    component: () => import("../views/Certy.vue"),
   },
 ];
 
