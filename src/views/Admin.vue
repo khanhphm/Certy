@@ -5,20 +5,33 @@
         <v-container>
           <v-row>
             <v-col cols="6">
-              <v-card color="success" dark class="mx-4">
-                <v-card-tile>
-                  <h3 class="text-center">Balance</h3>
-                </v-card-tile>
-                <v-card-text>
-                  <h1 class="text-center">{{ contractBalance }} Eth</h1>
-                </v-card-text>
-              </v-card>
+              <v-tooltip left>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-card
+                    v-bind="attrs"
+                    v-on="on"
+                    color="success"
+                    dark
+                    class="mx-4"
+                    @click="withdraw()"
+                  >
+                    <div>
+                      <h3 class="text-center">Balance</h3>
+                    </div>
+                    <v-card-text>
+                      <h1 class="text-center">{{ contractBalance }} Eth</h1>
+                    </v-card-text>
+                  </v-card></template
+                >
+
+                <span class="text-caption">Click to withdraw</span>
+              </v-tooltip>
             </v-col>
             <v-col cols="6">
               <v-card color="primary" dark class="mx-4">
-                <v-card-tile>
+                <div>
                   <h3 class="text-center">Certs</h3>
-                </v-card-tile>
+                </div>
                 <v-card-text>
                   <h1 class="text-center">{{ numOfCert }}</h1>
                 </v-card-text>
@@ -33,10 +46,117 @@
                 <v-spacer></v-spacer>
                 <v-btn @click="form = true" color="success" dark> Add </v-btn>
               </v-app-bar>
-              <v-container class="d-flex flex-wrap">
-                <v-card v-for="(cert,id) in Certis" :key="id" class="mx-3">
-                  <v-card-title>{{cert[1]}}</v-card-title>
-                </v-card>
+              <v-container class="d-flex flex-wrap justify-space-around">
+                <v-hover v-for="(cert, id) in Certis" :key="id">
+                  <template v-slot:default="{ hover }">
+                    <v-card
+                      width="23%"
+                      min-width="200"
+                      :class="`elevation-${hover ? 24 : 6}`"
+                      class="my-3 transition-swing"
+                    >
+                      <v-tooltip top>
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-img
+                            v-bind="attrs"
+                            v-on="on"
+                            :src="
+                              'https://bafybeiht3m4yn2tvqtlsykcqc5s33dlijqaph4i6pfqwmenmvlftfbm4oy.ipfs.nftstorage.link/' +
+                                cert[1] +
+                                '.png' ||
+                              'https://cdn.doctailieu.com/images/2020/05/21/certificate-nghia-la-gi.jpg'
+                            "
+                            width="100%"
+                            @click="viewCert = cert[4]"
+                          ></v-img>
+                        </template>
+                        <span class="text-caption">
+                          Click to view Certificate
+                        </span>
+                      </v-tooltip>
+
+                      <v-dialog
+                        v-model="viewCert"
+                        max-width="75%"
+                        transition="dialog-transition"
+                        scrollable
+                      >
+                        <v-card>
+                          <v-img
+                            :src="
+                              'https://bafybeiht3m4yn2tvqtlsykcqc5s33dlijqaph4i6pfqwmenmvlftfbm4oy.ipfs.nftstorage.link/' +
+                              cert[1] +
+                              '.png'
+                            "
+                            height="400px"
+                          ></v-img>
+                          <v-card-title>
+                            {{ cert[1] }} Certificate
+                          </v-card-title>
+                          <v-card-text>
+                            <div class="text-overline">
+                              Owner:
+                              <a
+                                target="_blank"
+                                :href="
+                                  'https://ropsten.etherscan.io/token/0x04c8e2935262c4ef5605c22d136ec063cb15e28c?a=' +
+                                  cert[2]
+                                "
+                                >{{ cert[0] }}</a
+                              >
+                            </div>
+                            <div>
+                              Neque qui modi dolores accusamus a saepe ducimus
+                              qui. Nesciunt dignissimos impedit quia neque omnis
+                              sit qui est et. Accusamus qui dolores. Rerum
+                              explicabo voluptas aut voluptatibus corrupti
+                              laboriosam quo inventore porro. Non enim non ea
+                              consequatur eius ad fugit labore at. Quos sed
+                              consequatur dolores dolorem cumque magnam.
+                              Voluptatum dolores aut. Provident reiciendis et
+                              quibusdam. Qui laborum autem animi asperiores qui
+                              maiores. Occaecati occaecati fuga. Quo dicta
+                              explicabo voluptatibus ab nulla consequatur
+                              suscipit animi et. Corrupti voluptatum distinctio.
+                            </div>
+                            <div class="my-3 text-caption align-right">
+                              <a
+                                target="_blank"
+                                :href="`https://ropsten.etherscan.io/token/0x04c8e2935262c4ef5605c22d136ec063cb15e28c?a=${id}#inventory`"
+                                >More information...</a
+                              >
+                            </div>
+                          </v-card-text>
+                        </v-card>
+                      </v-dialog>
+
+                      <v-card-text>
+                        <div>Course: {{ cert[1] }}</div>
+                        <div>
+                          <v-tooltip right>
+                            <template v-slot:activator="{ on, attrs }">
+                              <span
+                                v-bind="attrs"
+                                v-on="on"
+                                @click="copy(cert[2])"
+                                >Owner: {{ cert[0] }}</span
+                              >
+                            </template>
+                            <span class="text-caption"
+                              >Click to copy address</span
+                            >
+                          </v-tooltip>
+                        </div>
+                        <div>
+                          Status:
+                          <v-icon color="success" x-small :disabled="!cert[4]"
+                            >mdi-circle</v-icon
+                          >
+                        </div>
+                      </v-card-text>
+                    </v-card>
+                  </template>
+                </v-hover>
               </v-container>
             </v-col>
           </v-row>
@@ -51,11 +171,13 @@
                 label="Tên học viên"
                 v-model="name"
               ></v-text-field>
-              <v-text-field
-                color="dark"
-                label="Mã lớp"
+              <v-combobox
                 v-model="classId"
-              ></v-text-field>
+                :items="classList"
+                label="Course"
+                color="dark"
+                dense
+              ></v-combobox>
               <v-text-field
                 color="dark"
                 label="Địa chỉ ví học viên"
@@ -89,10 +211,13 @@ export default {
       name: "",
       classId: "",
       ownerAddress: "",
+      classList: ["A01", "A02", "A03", "A04"],
 
       Certis: [],
       contractBalance: 0,
       numOfCert: 0,
+
+      viewCert: false,
     };
   },
   computed: {
@@ -103,10 +228,11 @@ export default {
     ...mapActions(["getAccount"]),
     submitForm(name, classId, ownerAddress) {
       contract.methods
-        .addCertificate( classId,name, ownerAddress)
+        .addCertificate(classId, name, ownerAddress)
         .send({ from: this.account })
         .then(() => {
           alert("Tạo chứng chỉ thành công");
+          this.getCertificates();
         });
       this.name = "";
       this.classId = "";
@@ -115,12 +241,14 @@ export default {
     },
 
     async getCertificates() {
+      let Certis = [];
       const numOfCert = await contract.methods.getNextCertificateId().call();
       for (let i = 0; i < numOfCert; i++) {
         const certInfor = await contract.methods.getCertificate(i).call();
-        this.Certis.push(certInfor);
+        Certis.push(certInfor);
       }
-      console.log(this.Certis)
+      this.Certis = Certis;
+      console.log(this.Certis);
     },
     async getTokenUri(id) {
       return await contract.methods.tokenURI(id).call();
@@ -135,6 +263,15 @@ export default {
     async getNumOfCert() {
       this.numOfCert = await contract.methods.getNextCertificateId().call();
     },
+    copy(text) {
+      navigator.clipboard.writeText(text);
+    },
+     withdraw(){
+      
+      contract.methods.withdraw().send({from:this.account}).then(()=>{
+        this.getContractBalance();
+      })
+    }
   },
   created() {
     window.ethereum
