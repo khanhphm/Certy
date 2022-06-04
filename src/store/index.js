@@ -7,8 +7,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     account: "",
-    wallet:null,
-    balance:0,
+    wallet:[],
   },
   mutations: {
     setAccount(state, payload) {
@@ -17,9 +16,7 @@ export default new Vuex.Store({
     setWallet(state, payload) {
       state.wallet = payload;
     },
-    setBalance(state, payload) {
-      state.balance = payload;
-    },
+
 
   },
   actions: {
@@ -30,9 +27,8 @@ export default new Vuex.Store({
     },
     getWallet({commit, state}){
       const account = state.account
-      contract.methods.walletOfOwner(account).call({from:account}).then((data )=>{
+      contract.methods.myTokens().call({from:account}).then((data )=>{
         commit("setWallet", data);
-        commit("setBalance", data.length);
       })
       
     },

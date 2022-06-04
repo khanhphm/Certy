@@ -67,7 +67,7 @@
                               'https://cdn.doctailieu.com/images/2020/05/21/certificate-nghia-la-gi.jpg'
                             "
                             width="100%"
-                            @click="viewCert = cert[4]"
+                            @click="cert.view = true"
                           ></v-img>
                         </template>
                         <span class="text-caption">
@@ -76,8 +76,8 @@
                       </v-tooltip>
 
                       <v-dialog
-                        v-model="viewCert"
-                        max-width="75%"
+                        v-model="cert.view"
+                        max-width="65%"
                         transition="dialog-transition"
                         scrollable
                       >
@@ -88,7 +88,7 @@
                               cert[1] +
                               '.png'
                             "
-                            height="400px"
+                            height="450px"
                           ></v-img>
                           <v-card-title>
                             {{ cert[1] }} Certificate
@@ -99,7 +99,7 @@
                               <a
                                 target="_blank"
                                 :href="
-                                  'https://ropsten.etherscan.io/token/0x04c8e2935262c4ef5605c22d136ec063cb15e28c?a=' +
+                                  'https://ropsten.etherscan.io/token/'+contractAddress+'?a=' +
                                   cert[2]
                                 "
                                 >{{ cert[0] }}</a
@@ -122,7 +122,7 @@
                             <div class="my-3 text-caption align-right">
                               <a
                                 target="_blank"
-                                :href="`https://ropsten.etherscan.io/token/0x04c8e2935262c4ef5605c22d136ec063cb15e28c?a=${id}#inventory`"
+                                :href="`https://ropsten.etherscan.io/token/${contractAddress}?a=${id}#inventory`"
                                 >More information...</a
                               >
                             </div>
@@ -222,6 +222,9 @@ export default {
   },
   computed: {
     ...mapState(["account"]),
+    contractAddress(){
+      return contract.options.address
+    }
   },
 
   methods: {
