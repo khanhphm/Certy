@@ -99,7 +99,9 @@
                               <a
                                 target="_blank"
                                 :href="
-                                  'https://ropsten.etherscan.io/token/'+contractAddress+'?a=' +
+                                  'https://ropsten.etherscan.io/token/' +
+                                  contractAddress +
+                                  '?a=' +
                                   cert[2]
                                 "
                                 >{{ cert[0] }}</a
@@ -117,7 +119,47 @@
                               quibusdam. Qui laborum autem animi asperiores qui
                               maiores. Occaecati occaecati fuga. Quo dicta
                               explicabo voluptatibus ab nulla consequatur
-                              suscipit animi et. Corrupti voluptatum distinctio.
+                              suscipit animi et. Corrupti voluptatum
+                              distinctio. <br>
+                              Numquam id nesciunt nesciunt
+                              repudiandae iusto ut. Et quaerat recusandae
+                              dolores iusto est aut recusandae et. Magni
+                              consectetur nam consequatur. Nesciunt omnis vel
+                              debitis eum unde. Tempore et voluptas. Quos
+                              voluptatem dolor vero placeat id ex dolorum saepe.
+                              Cumque nemo suscipit et hic minima dolor. Magni et
+                              modi. Numquam reiciendis consequatur et voluptatem
+                              eos qui. Perspiciatis qui deleniti similique alias
+                              est. Repudiandae velit quia eligendi rem quia quis
+                              sint. Est et delectus in voluptatem et quas.
+                              Perferendis dignissimos quaerat molestias
+                              laboriosam nemo enim dolorem. <br>
+                              Neque qui modi dolores accusamus a saepe ducimus
+                              qui. Nesciunt dignissimos impedit quia neque omnis
+                              sit qui est et. Accusamus qui dolores. Rerum
+                              explicabo voluptas aut voluptatibus corrupti
+                              laboriosam quo inventore porro. Non enim non ea
+                              consequatur eius ad fugit labore at. Quos sed
+                              consequatur dolores dolorem cumque magnam.
+                              Voluptatum dolores aut. Provident reiciendis et
+                              quibusdam. Qui laborum autem animi asperiores qui
+                              maiores. Occaecati occaecati fuga. Quo dicta
+                              explicabo voluptatibus ab nulla consequatur
+                              suscipit animi et. Corrupti voluptatum
+                              distinctio. <br>
+                              Numquam id nesciunt nesciunt
+                              repudiandae iusto ut. Et quaerat recusandae
+                              dolores iusto est aut recusandae et. Magni
+                              consectetur nam consequatur. Nesciunt omnis vel
+                              debitis eum unde. Tempore et voluptas. Quos
+                              voluptatem dolor vero placeat id ex dolorum saepe.
+                              Cumque nemo suscipit et hic minima dolor. Magni et
+                              modi. Numquam reiciendis consequatur et voluptatem
+                              eos qui. Perspiciatis qui deleniti similique alias
+                              est. Repudiandae velit quia eligendi rem quia quis
+                              sint. Est et delectus in voluptatem et quas.
+                              Perferendis dignissimos quaerat molestias
+                              laboriosam nemo enim dolorem.
                             </div>
                             <div class="my-3 text-caption align-right">
                               <a
@@ -149,7 +191,7 @@
                         </div>
                         <div>
                           Status:
-                          <v-icon color="success" x-small :disabled="!cert[4]"
+                          <v-icon color="success" x-small :disabled="!cert[3]"
                             >mdi-circle</v-icon
                           >
                         </div>
@@ -221,10 +263,10 @@ export default {
     };
   },
   computed: {
-    ...mapState(["account"]),
-    contractAddress(){
-      return contract.options.address
-    }
+    ...mapState(["account", "owner"]),
+    contractAddress() {
+      return contract.options.address;
+    },
   },
 
   methods: {
@@ -269,12 +311,15 @@ export default {
     copy(text) {
       navigator.clipboard.writeText(text);
     },
-     withdraw(){
-      
-      contract.methods.withdraw().send({from:this.account}).then(()=>{
-        this.getContractBalance();
-      })
-    }
+    withdraw() {
+      contract.methods
+        .withdraw()
+        .send({ from: this.account })
+        .then(() => {
+          this.getContractBalance();
+          alert("Rút tiền thành công");
+        });
+    },
   },
   created() {
     window.ethereum
@@ -284,10 +329,17 @@ export default {
       .then(() => {});
   },
   async mounted() {
+    
     await this.getAccount();
     window.ethereum.on("accountsChanged", async () => {
       await this.getAccount();
+      
     });
+    
+    if (this.account != this.owner) {
+      alert("Bạn không phải Owner."+this.owner, "Chỉ Owner mới có quyền vào trang này");
+      this.$router.push("/");
+    }
     this.getCertificates();
     this.getContractBalance();
     this.getNumOfCert();

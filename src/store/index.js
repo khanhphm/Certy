@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     account: "",
     wallet:[],
+    owner:""
   },
   mutations: {
     setAccount(state, payload) {
@@ -16,7 +17,9 @@ export default new Vuex.Store({
     setWallet(state, payload) {
       state.wallet = payload;
     },
-
+    setOwner(state, payload){
+      state.owner=payload
+    }
 
   },
   actions: {
@@ -32,6 +35,12 @@ export default new Vuex.Store({
       })
       
     },
+    getOwner({commit}){
+      contract.methods.owner().call().then((data)=>{
+        console.log(data)
+        commit("setOwner",data)
+      })
+    }
   },
   modules: {},
 });

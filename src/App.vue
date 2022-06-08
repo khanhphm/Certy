@@ -16,8 +16,7 @@
       <v-tabs dark>
         <v-tab to="/"> Home </v-tab>
         <v-tab to="/my-certy"> My Certy </v-tab>
-        <v-tab to="/about"> About </v-tab>
-        <v-tab to="/contact"> Contact </v-tab>
+        <v-tab to="/admin"> Admin </v-tab>
       </v-tabs>
     </v-app-bar>
 
@@ -32,13 +31,18 @@ const Moralis = require("moralis");
 const serverUrl = "https://0pi3aryzbveg.usemoralis.com:2053/server";
 const appId = "ERpaelo8j5rMwc4uFZKyhItKjQ08oIKJIJzRZbp4";
 Moralis.start({ serverUrl, appId });
+import { mapActions } from 'vuex'
 export default {
   components: {},
   data() {
     return {};
   },
-  computed: {},
-  methods: {},
+  computed: {
+    
+  },
+  methods: {
+    ...mapActions(["getOwner"])
+  },
   created() {
     window.ethereum
       .request({
@@ -47,6 +51,8 @@ export default {
       .then(() => {});
   },
   async mounted() {
+    await this.getOwner()
+    
     let user = Moralis.User.current();
     if (!user) {
       user = await Moralis.authenticate({
