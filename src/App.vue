@@ -9,7 +9,7 @@
           />
         </v-avatar>
 
-        <h1 transition="scale-transition">CERTY</h1>
+        <h1 transition="scale-transition">UNI</h1>
       </div>
 
       <v-divider class="mx-6" vertical color="gray"></v-divider>
