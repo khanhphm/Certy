@@ -21,7 +21,7 @@
               <a
                 target="_blank"
                 :href="
-                  'https://ropsten.etherscan.io/token/' +
+                  'https://goerli.etherscan.io//token/' +
                   contractAddress +
                   '?a=' +
                   cert[2]
@@ -86,7 +86,7 @@
             <div class="my-3 text-caption align-right">
               <a
                 target="_blank"
-                :href="`https://ropsten.etherscan.io/token/${contractAddress}?a=${TokenId}#inventory`"
+                :href="`https://goerli.etherscan.io//token/${contractAddress}?a=${TokenId}#inventory`"
                 >More information...</a
               >
             </div>

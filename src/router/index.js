@@ -7,7 +7,7 @@ import MyCerty from "../views/MyCerty.vue";
 import Admin from "../views/Admin.vue";
 
 Vue.use(VueRouter);
-
+//asd
 const routes = [
   {
     path: "/",
