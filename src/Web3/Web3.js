@@ -684,7 +684,7 @@ const abi = [
 		"type": "function"
 	}
 ]
-const address = "0xf751320dD7d1604b868B34530AAaF284DCB2Bd8B";
+const address = "0x3A70C9151d3389c365412b32727fF21daaF4c9bf";
 
 const contract = new web3.eth.Contract(abi, address);
 
