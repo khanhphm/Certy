@@ -27,10 +27,7 @@
 </template>
 
 <script>
-const Moralis = require("moralis");
-const serverUrl = "https://0pi3aryzbveg.usemoralis.com:2053/server";
-const appId = "ERpaelo8j5rMwc4uFZKyhItKjQ08oIKJIJzRZbp4";
-Moralis.start({ serverUrl, appId });
+
 import { mapActions } from 'vuex'
 export default {
   components: {},
