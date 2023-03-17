@@ -1,7 +1,7 @@
 const Web3 = require("web3");
 const web3 = new Web3(
   Web3.givenProvider ||
-    "http://149.102.145.172:9933"
+    "ws://149.102.145.172:9933"
 );
 
 const abi = [
@@ -9,17 +9,35 @@ const abi = [
 		"inputs": [
 			{
 				"internalType": "string",
+				"name": "_class",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
 				"name": "_name",
 				"type": "string"
 			},
 			{
+				"internalType": "address",
+				"name": "_owner",
+				"type": "address"
+			}
+		],
+		"name": "addCertificate",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "string",
-				"name": "_symbol",
+				"name": "name",
 				"type": "string"
 			},
 			{
 				"internalType": "string",
-				"name": "_initBaseURI",
+				"name": "symbol",
 				"type": "string"
 			}
 		],
@@ -95,22 +113,23 @@ const abi = [
 		"type": "function"
 	},
 	{
+		"anonymous": false,
 		"inputs": [
 			{
+				"indexed": true,
 				"internalType": "address",
-				"name": "_to",
+				"name": "buyer",
 				"type": "address"
 			},
 			{
+				"indexed": false,
 				"internalType": "uint256",
-				"name": "_mintAmount",
+				"name": "tokenId",
 				"type": "uint256"
 			}
 		],
-		"name": "mint",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
+		"name": "BoughtToken",
+		"type": "event"
 	},
 	{
 		"anonymous": false,
@@ -132,29 +151,10 @@ const abi = [
 		"type": "event"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "bool",
-				"name": "_state",
-				"type": "bool"
-			}
-		],
-		"name": "pause",
+		"inputs": [],
+		"name": "receiveCertificate",
 		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_user",
-				"type": "address"
-			}
-		],
-		"name": "removeWhitelistUser",
-		"outputs": [],
-		"stateMutability": "nonpayable",
+		"stateMutability": "payable",
 		"type": "function"
 	},
 	{
@@ -206,7 +206,7 @@ const abi = [
 			},
 			{
 				"internalType": "bytes",
-				"name": "data",
+				"name": "_data",
 				"type": "bytes"
 			}
 		],
@@ -237,20 +237,7 @@ const abi = [
 		"inputs": [
 			{
 				"internalType": "string",
-				"name": "_newBaseExtension",
-				"type": "string"
-			}
-		],
-		"name": "setBaseExtension",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_newBaseURI",
+				"name": "baseURI",
 				"type": "string"
 			}
 		],
@@ -263,11 +250,11 @@ const abi = [
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "_newCost",
+				"name": "newPrice",
 				"type": "uint256"
 			}
 		],
-		"name": "setCost",
+		"name": "setCurrentPrice",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -276,11 +263,16 @@ const abi = [
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "_newmaxMintAmount",
+				"name": "tokenId",
 				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "uri",
+				"type": "string"
 			}
 		],
-		"name": "setmaxMintAmount",
+		"name": "setTokenURI",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -347,23 +339,10 @@ const abi = [
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_user",
-				"type": "address"
-			}
-		],
-		"name": "whitelistUser",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
 		"inputs": [],
 		"name": "withdraw",
 		"outputs": [],
-		"stateMutability": "payable",
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -387,38 +366,12 @@ const abi = [
 	},
 	{
 		"inputs": [],
-		"name": "baseExtension",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
 		"name": "baseURI",
 		"outputs": [
 			{
 				"internalType": "string",
 				"name": "",
 				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "cost",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -438,6 +391,66 @@ const abi = [
 				"internalType": "address",
 				"name": "",
 				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "getCertificate",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "_certificateName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_certificateClass",
+				"type": "string"
+			},
+			{
+				"internalType": "address",
+				"name": "_certificateOwner",
+				"type": "address"
+			},
+			{
+				"internalType": "bool",
+				"name": "_certificateMinted",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getCurrentPrice",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getNextCertificateId",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -468,12 +481,18 @@ const abi = [
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "maxMintAmount",
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_owner",
+				"type": "address"
+			}
+		],
+		"name": "mintableCertificatesCount",
 		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "",
+				"name": "mintable",
 				"type": "uint256"
 			}
 		],
@@ -482,12 +501,12 @@ const abi = [
 	},
 	{
 		"inputs": [],
-		"name": "maxSupply",
+		"name": "myTokens",
 		"outputs": [
 			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
+				"internalType": "uint256[]",
+				"name": "_myTokens",
+				"type": "uint256[]"
 			}
 		],
 		"stateMutability": "view",
@@ -533,19 +552,6 @@ const abi = [
 				"internalType": "address",
 				"name": "",
 				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "paused",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
 			}
 		],
 		"stateMutability": "view",
@@ -629,6 +635,25 @@ const abi = [
 	{
 		"inputs": [
 			{
+				"internalType": "address",
+				"name": "_owner",
+				"type": "address"
+			}
+		],
+		"name": "tokensOfOwner",
+		"outputs": [
+			{
+				"internalType": "uint256[]",
+				"name": "",
+				"type": "uint256[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "uint256",
 				"name": "tokenId",
 				"type": "uint256"
@@ -657,47 +682,9 @@ const abi = [
 		],
 		"stateMutability": "view",
 		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_owner",
-				"type": "address"
-			}
-		],
-		"name": "walletOfOwner",
-		"outputs": [
-			{
-				"internalType": "uint256[]",
-				"name": "",
-				"type": "uint256[]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "whitelisted",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
 	}
 ]
-const address = "0xF558566504845572d9B96a1ba186327Be1ed00d9";
+const address = "0x95de8e7E604Aa16f984b669d24E7df36a3e05BB8";
 
 const contract = new web3.eth.Contract(abi, address);
 
