@@ -98,7 +98,7 @@
                               <a
                                 target="_blank"
                                 :href="
-                                  'https://goerli.etherscan.io//token/'+contractAddress+'?a=' +
+                                  'https://sepolia.etherscan.io//token/'+contractAddress+'?a=' +
                                   cert[2]
                                 "
                                 >{{ cert[0] }}</a
@@ -161,7 +161,7 @@
                             <div class="my-3 text-caption align-right">
                               <a
                                 target="_blank"
-                                :href="`https://goerli.etherscan.io//token/${contractAddress}?a=${id}#inventory`"
+                                :href="`https://sepolia.etherscan.io//token/${contractAddress}?a=${id}#inventory`"
                                 >More information...</a
                               >
                             </div>
