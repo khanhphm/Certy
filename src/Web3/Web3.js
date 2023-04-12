@@ -1,6 +1,7 @@
 const Web3 = require("web3");
 const web3 = new Web3(
-  Web3.givenProvider
+  Web3.givenProvider ||
+    "https://goerli.infura.io/v3/605b49dec8f34e66ba2c1a11562a9bea"
 );
 
 const abi = [
@@ -683,7 +684,7 @@ const abi = [
 		"type": "function"
 	}
 ]
-const address = "0x56f0DD97C554DD18e44aA9dFA7EA9E624320dce9";
+const address = "0x3A70C9151d3389c365412b32727fF21daaF4c9bf";
 
 const contract = new web3.eth.Contract(abi, address);
 
