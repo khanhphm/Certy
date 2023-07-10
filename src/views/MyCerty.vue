@@ -34,7 +34,7 @@
             My Certificate
             <v-tooltip  top>
               <template v-slot:activator="{ on, attrs }">
-                  <a v-bind="attrs" v-on="on" :href="'https://sepolia.etherscan.io//token/'+contractAddress+'?a='+account" target="_blank" rel="noopener noreferrer"><v-icon  color="primary" small>mdi-information</v-icon></a>
+                  <a v-bind="attrs" v-on="on" :href="'https://goerli.etherscan.io//token/'+contractAddress+'?a='+account" target="_blank" rel="noopener noreferrer"><v-icon  color="primary" small>mdi-information</v-icon></a>
                   
               </template>
               <span>Click to view Etherscan</span>
@@ -98,7 +98,7 @@
                               <a
                                 target="_blank"
                                 :href="
-                                  'https://sepolia.etherscan.io//token/'+contractAddress+'?a=' +
+                                  'https://goerli.etherscan.io//token/'+contractAddress+'?a=' +
                                   cert[2]
                                 "
                                 >{{ cert[0] }}</a
@@ -161,7 +161,7 @@
                             <div class="my-3 text-caption align-right">
                               <a
                                 target="_blank"
-                                :href="`https://sepolia.etherscan.io//token/${contractAddress}?a=${id}#inventory`"
+                                :href="`https://goerli.etherscan.io//token/${contractAddress}?a=${id}#inventory`"
                                 >More information...</a
                               >
                             </div>
