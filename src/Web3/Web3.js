@@ -1,7 +1,6 @@
 const Web3 = require("web3");
 const web3 = new Web3(
-  Web3.givenProvider ||
-    "https://sepolia.infura.io/v3/605b49dec8f34e66ba2c1a11562a9bea"
+  Web3.givenProvider
 );
 
 const abi = [
